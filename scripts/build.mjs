@@ -8,6 +8,7 @@ const postsDir = path.join(distDir, "posts");
 const tagsDir = path.join(distDir, "tags");
 const templateCssPath = path.join(root, "templates", "site.css");
 const studioScriptPath = path.join(root, "templates", "studio.js");
+const viewsScriptPath = path.join(root, "templates", "views.js");
 const basePath = process.env.SITE_BASE_PATH || "/";
 
 const site = {
@@ -252,6 +253,7 @@ function createLayout({ title, description, content }) {
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Manrope:wght@400;500;700;800&family=Noto+Serif+SC:wght@500;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="${withBase("/site.css")}" />
+    <script defer src="${withBase("/views.js")}"></script>
     <title>${escapeHtml(title)}</title>
   </head>
   <body>
@@ -355,12 +357,19 @@ function renderHome(posts) {
   const cards = posts
     .map(
       (post) => `<a class="post-card" href="${withBase(`/posts/${post.slug}/`)}">
-  <div class="post-card-meta">
-    <time datetime="${escapeHtml(post.date)}">${formatDate(post.date)}</time>
-    ${post.tags.length > 0 ? `<span>${escapeHtml(post.tags.join(" / "))}</span>` : ""}
-  </div>
+  ${
+    post.tags.length > 0
+      ? `<div class="post-card-meta">
+    <span>${escapeHtml(post.tags.join(" / "))}</span>
+  </div>`
+      : ""
+  }
   <h3>${escapeHtml(post.title)}</h3>
   <p>${escapeHtml(post.description)}</p>
+  <div class="post-card-footer">
+    <time datetime="${escapeHtml(post.date)}">${formatDate(post.date)}</time>
+    <span class="view-pill" data-view-count data-view-slug="${escapeHtml(post.slug)}">浏览 0</span>
+  </div>
 </a>`
     )
     .join("\n");
@@ -465,9 +474,10 @@ function renderPost(post) {
     <p class="eyebrow">Essay</p>
     <h1>${escapeHtml(post.title)}</h1>
     <p class="article-description">${escapeHtml(post.description)}</p>
-    <div class="article-meta">
+    <div class="article-meta" data-view-track="${escapeHtml(post.slug)}">
       <time datetime="${escapeHtml(post.date)}">${formatDate(post.date)}</time>
       ${post.tags.length > 0 ? `<span>${escapeHtml(post.tags.join(" / "))}</span>` : ""}
+      <span class="view-pill" data-view-count data-view-slug="${escapeHtml(post.slug)}">浏览 0</span>
     </div>
   </header>
   <div class="article-content">
@@ -547,11 +557,12 @@ function renderTagPage(tag) {
   const cards = tag.posts
     .map(
       (post) => `<a class="post-card" href="${withBase(`/posts/${post.slug}/`)}">
-  <div class="post-card-meta">
-    <time datetime="${escapeHtml(post.date)}">${formatDate(post.date)}</time>
-  </div>
   <h3>${escapeHtml(post.title)}</h3>
   <p>${escapeHtml(post.description)}</p>
+  <div class="post-card-footer">
+    <time datetime="${escapeHtml(post.date)}">${formatDate(post.date)}</time>
+    <span class="view-pill" data-view-count data-view-slug="${escapeHtml(post.slug)}">浏览 0</span>
+  </div>
 </a>`
     )
     .join("\n");
@@ -661,8 +672,10 @@ async function main() {
   await fs.mkdir(tagsDir, { recursive: true });
   const css = await fs.readFile(templateCssPath, "utf8");
   const studioScript = await fs.readFile(studioScriptPath, "utf8");
+  const viewsScript = await fs.readFile(viewsScriptPath, "utf8");
   await fs.writeFile(path.join(distDir, "site.css"), css, "utf8");
   await fs.writeFile(path.join(distDir, "studio.js"), studioScript, "utf8");
+  await fs.writeFile(path.join(distDir, "views.js"), viewsScript, "utf8");
   await fs.writeFile(path.join(distDir, ".nojekyll"), "", "utf8");
 
   const posts = await loadPosts();
