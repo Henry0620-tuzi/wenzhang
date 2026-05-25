@@ -34,40 +34,74 @@ tags:
 - `/about/` 关于页
 - `/tags/` 标签页
 - `/posts/文章名/` 文章页
+- `/studio/` 私人写作后台入口
 
-## 部署方式
+## 优先部署到 Cloudflare Pages
 
-推荐直接部署到以下任意一种静态托管平台：
+推荐优先使用 Cloudflare Pages 托管这个项目。
 
-- Vercel
-- Netlify
-- Cloudflare Pages
+### Cloudflare Pages 配置
 
-如果你用 GitHub 仓库部署：
+- Repository: `Henry0620-tuzi/wenzhang`
+- Production branch: `main`
+- Framework preset: `None`
+- Build command: `npm run build`
+- Build output directory: `dist`
+- Root directory: 留空
 
-1. 把这个项目推到 GitHub。
-2. 在平台里导入仓库。
-3. 构建命令填 `npm run build`。
-4. 输出目录填 `dist`。
+### Cloudflare Pages 环境变量
+
+默认不需要设置环境变量。
+
+重点：
+
+- Cloudflare Pages 下不要设置 `SITE_BASE_PATH=/wenzhang/`
+- Cloudflare Pages 应该直接使用根路径 `/`
+
+也就是说，在 Cloudflare Pages 里：
+
+```bash
+npm run build
+```
+
+就够了。
+
+## GitHub Pages 说明
+
+这个项目也兼容 GitHub Pages，但需要子路径部署。
+
+如果部署到 GitHub Pages：
+
+```bash
+SITE_BASE_PATH=/wenzhang/ npm run build
+```
+
+因为 GitHub Pages 对应的访问地址是：
+
+`https://henry0620-tuzi.github.io/wenzhang/`
 
 ## 自定义域名
 
-1. 先在域名服务商买一个域名。
-2. 在部署平台里绑定这个域名。
-3. 按平台提示把 DNS 记录指向它。
-4. 等生效后，网站就会用你的专属域名访问。
+如果你用 Cloudflare Pages，再绑定自己的域名会更顺。
+
+步骤一般是：
+
+1. 在 Cloudflare Pages 项目里打开 `Custom domains`
+2. 添加你的域名
+3. 按提示完成 DNS 配置
+4. 等待生效
 
 ## 推荐顺序
 
-先做这三步最稳：
+建议这样走：
 
-1. 先写 3 到 5 篇文章。
-2. 再部署到公网。
-3. 最后绑定自己的域名。
+1. 先在 Cloudflare Pages 跑通正式部署
+2. 再接自己的域名
+3. 最后继续完善作者信息、二维码和发布后台
 
 ## 下一步可升级
 
-- 接入评论系统
-- 增加 RSS 订阅
-- 增加全文搜索
-- 接入后台管理或 CMS
+- 把 X 链接替换成你的真实主页
+- 把二维码展示位替换成真实二维码图片
+- 接入真正安全的后台登录
+- 接入一键发布文章能力
