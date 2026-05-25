@@ -12,7 +12,7 @@ const basePath = process.env.SITE_BASE_PATH || "/";
 const site = {
   title: "你的独立写作站",
   description: "一个可以自由发布文章、长期沉淀内容的个人独立网站。",
-  author: "你的名字",
+  author: "彬彬",
   role: "独立写作者",
   bio: "把文章、思考和项目都放在自己的地盘上，不依赖平台分发。",
   location: "中国 / 线上",
