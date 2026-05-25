@@ -7,6 +7,7 @@ const distDir = path.join(root, "dist");
 const postsDir = path.join(distDir, "posts");
 const tagsDir = path.join(distDir, "tags");
 const templateCssPath = path.join(root, "templates", "site.css");
+const studioScriptPath = path.join(root, "templates", "studio.js");
 const basePath = process.env.SITE_BASE_PATH || "/";
 
 const site = {
@@ -19,6 +20,7 @@ const site = {
   email: "hello@example.com",
   links: [
     { label: "首页", href: "/" },
+    { label: "写作台", href: "/studio/" },
     { label: "关于", href: "/about/" },
     { label: "分类", href: "/tags/" },
   ],
@@ -543,12 +545,78 @@ function renderTagPage(tag) {
   });
 }
 
+function renderStudio() {
+  return createLayout({
+    title: `写作台 | ${site.title}`,
+    description: "在网页里直接写文章、实时预览，并导出 Markdown 模板。",
+    content: `<section class="page-hero">
+  <p class="eyebrow">Writing Studio</p>
+  <h1>在网页里直接开始写。</h1>
+  <p class="hero-copy">你可以先在这里写标题、摘要、标签和正文，右侧会实时预览文章效果，还可以一键导出 Markdown 文件内容。</p>
+</section>
+
+<section class="studio-layout">
+  <form class="studio-panel" id="studio-form">
+    <label class="studio-field">
+      <span>文章标题</span>
+      <input id="studio-title" type="text" value="我的新文章" />
+    </label>
+    <label class="studio-field">
+      <span>一句摘要</span>
+      <input id="studio-description" type="text" value="用一句话说明这篇文章写什么。" />
+    </label>
+    <label class="studio-field">
+      <span>标签</span>
+      <input id="studio-tags" type="text" value="随笔, 想法" />
+    </label>
+    <label class="studio-field">
+      <span>正文</span>
+      <textarea id="studio-body" rows="18">## 从这里开始写
+
+你可以直接在网页里先起草内容。
+
+- 支持标题
+- 支持列表
+- 支持代码块
+
+\`\`\`md
+这是一段示例代码
+\`\`\`
+</textarea>
+    </label>
+    <div class="studio-actions">
+      <button class="button button-primary" type="button" id="copy-markdown">复制 Markdown</button>
+      <button class="button button-secondary" type="button" id="download-markdown">下载 .md 文件</button>
+    </div>
+    <p class="studio-hint">提示：这个版本是前端写作台，适合起草和导出。真正一键发布到线上，我们下一步可以接 GitHub 发布接口。</p>
+  </form>
+
+  <section class="studio-preview-card">
+    <div class="studio-preview-head">
+      <p class="eyebrow">Live Preview</p>
+      <h2 id="preview-title">我的新文章</h2>
+      <p id="preview-description">用一句话说明这篇文章写什么。</p>
+      <div class="article-meta">
+        <time id="preview-date">${formatDate(new Date().toISOString())}</time>
+        <span id="preview-tags">随笔 / 想法</span>
+      </div>
+    </div>
+    <div class="article-content" id="preview-body"></div>
+  </section>
+</section>
+
+<script src="${withBase("/studio.js")}"></script>`,
+  });
+}
+
 async function main() {
   await ensureCleanDir(distDir);
   await fs.mkdir(postsDir, { recursive: true });
   await fs.mkdir(tagsDir, { recursive: true });
   const css = await fs.readFile(templateCssPath, "utf8");
+  const studioScript = await fs.readFile(studioScriptPath, "utf8");
   await fs.writeFile(path.join(distDir, "site.css"), css, "utf8");
+  await fs.writeFile(path.join(distDir, "studio.js"), studioScript, "utf8");
   await fs.writeFile(path.join(distDir, ".nojekyll"), "", "utf8");
 
   const posts = await loadPosts();
@@ -557,6 +625,9 @@ async function main() {
   const aboutDir = path.join(distDir, "about");
   await fs.mkdir(aboutDir, { recursive: true });
   await fs.writeFile(path.join(aboutDir, "index.html"), renderAbout(posts, tags), "utf8");
+  const studioDir = path.join(distDir, "studio");
+  await fs.mkdir(studioDir, { recursive: true });
+  await fs.writeFile(path.join(studioDir, "index.html"), renderStudio(), "utf8");
 
   const tagsIndexDir = path.join(tagsDir);
   await fs.mkdir(tagsIndexDir, { recursive: true });

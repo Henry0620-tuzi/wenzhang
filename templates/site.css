@@ -261,10 +261,91 @@ pre {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
+.studio-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 1rem;
+  align-items: start;
+}
+
 .about-card,
 .tag-card {
   border-radius: 1.4rem;
   padding: 1.2rem;
+}
+
+.studio-panel,
+.studio-preview-card {
+  backdrop-filter: blur(10px);
+  background: var(--surface);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: var(--shadow);
+  border-radius: 1.6rem;
+  padding: 1.25rem;
+}
+
+.studio-panel {
+  display: grid;
+  gap: 1rem;
+}
+
+.studio-field {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.studio-field span {
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.studio-field input,
+.studio-field textarea {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  padding: 0.95rem 1rem;
+  font: inherit;
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.6);
+  outline: none;
+  transition: border-color 180ms ease, box-shadow 180ms ease;
+}
+
+.studio-field textarea {
+  resize: vertical;
+  min-height: 22rem;
+  line-height: 1.7;
+}
+
+.studio-field input:focus,
+.studio-field textarea:focus {
+  border-color: rgba(180, 87, 47, 0.45);
+  box-shadow: 0 0 0 4px rgba(180, 87, 47, 0.08);
+}
+
+.studio-actions {
+  display: flex;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+}
+
+.studio-hint {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.8;
+}
+
+.studio-preview-head {
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.studio-preview-head h2 {
+  margin: 0;
+  font-family: "Fraunces", "Noto Serif SC", serif;
+  font-size: clamp(2rem, 5vw, 3.4rem);
+  line-height: 1;
 }
 
 .about-profile {
@@ -532,7 +613,8 @@ pre {
   }
 
   .about-grid,
-  .tag-grid {
+  .tag-grid,
+  .studio-layout {
     grid-template-columns: 1fr;
   }
 
