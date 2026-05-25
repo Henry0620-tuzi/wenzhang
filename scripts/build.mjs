@@ -17,7 +17,7 @@ const site = {
   role: "独立写作者",
   bio: "把文章、思考和项目都放在自己的地盘上，不依赖平台分发。",
   location: "中国 / 线上",
-  email: "hello@example.com",
+  email: "q343553497@gmail.com",
   xUrl: "https://x.com/",
   links: [
     { label: "首页", href: "/" },
