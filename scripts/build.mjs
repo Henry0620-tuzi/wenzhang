@@ -11,7 +11,7 @@ const studioScriptPath = path.join(root, "templates", "studio.js");
 const basePath = process.env.SITE_BASE_PATH || "/";
 
 const site = {
-  title: "你的独立写作站",
+  title: "彬彬的独立博客",
   description: "一个可以自由发布文章、长期沉淀内容的个人独立网站。",
   author: "彬彬",
   role: "独立写作者",
@@ -263,7 +263,7 @@ function createLayout({ title, description, content }) {
           <a class="brand" href="${withBase("/")}">
             <span class="brand-mark">${escapeHtml(site.author.slice(0, 2))}</span>
             <span class="brand-copy">
-              <strong>${escapeHtml(site.author)}</strong>
+              <strong>${escapeHtml(site.title)}</strong>
               <small>${escapeHtml(site.role)}</small>
             </span>
           </a>
@@ -413,7 +413,7 @@ function renderHome(posts) {
 
 <section class="featured-card">
   <p class="eyebrow">Featured</p>
-  <h2>${escapeHtml(featured?.title || "暂时还没有文章")}</h2>
+  <h2>${escapeHtml(featured?.title || site.title)}</h2>
   <p>${escapeHtml(featured?.description || "等你发布第一篇文章后，这里会自动成为重点推荐。")}</p>
   ${featured ? `<a class="featured-link" href="${withBase(`/posts/${featured.slug}/`)}">阅读最新文章</a>` : ""}
 </section>
@@ -457,7 +457,7 @@ function renderHome(posts) {
 
 function renderPost(post) {
   return createLayout({
-    title: `${post.title} | 你的独立写作站`,
+    title: `${post.title} | ${site.title}`,
     description: post.description,
     content: `<article class="article-shell">
   <a class="back-link" href="${withBase("/")}">返回首页</a>
