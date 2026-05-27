@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="在网页里直接写文章、实时预览，并导出 Markdown 模板。" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Manrope:wght@400;500;700;800&family=Noto+Serif+SC:wght@500;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/wenzhang/site.css" />
+    <script defer src="/wenzhang/views.js"></script>
+    <title>写作台 | 彬彬的独立博客</title>
+  </head>
+  <body>
+    <div class="page-shell">
+      <div class="page-glow page-glow-left"></div>
+      <div class="page-glow page-glow-right"></div>
+      <main class="site-frame">
+        <header class="topbar">
+          <a class="brand" href="/wenzhang/">
+            <span class="brand-mark">彬彬</span>
+            <span class="brand-copy">
+              <strong>彬彬的独立博客</strong>
+              <small>独立写作者</small>
+            </span>
+          </a>
+          <nav class="topnav" aria-label="主导航">
+            <a href="/wenzhang/">首页</a><a href="/wenzhang/#posts">文章</a><a href="/wenzhang/tags/">分类</a><a href="https://x.com/" target="_blank" rel="noreferrer">X</a><a href="https://github.com/Henry0620-tuzi/wenzhang" target="_blank" rel="noreferrer">GitHub</a>
+            <a href="/wenzhang/about/">关于</a>
+            <a class="nav-avatar" href="/wenzhang/about/" aria-label="头像入口">
+              <img src="/wenzhang/avatar.png" alt="彬彬 的头像" />
+            </a>
+          </nav>
+        </header>
+        <section class="admin-gate" id="admin-gate">
+  <div class="admin-gate-card">
+    <p class="eyebrow">Private Studio</p>
+    <h1>写作后台</h1>
+    <p class="hero-copy">这是你的私人写作入口。输入口令后才能进入写作台。</p>
+    <label class="studio-field">
+      <span>后台口令</span>
+      <input id="gate-password" type="password" placeholder="请输入后台口令" />
+    </label>
+    <div class="studio-actions">
+      <button class="button button-primary" type="button" id="gate-enter">进入后台</button>
+    </div>
+    <p class="studio-hint">当前是轻量保护版本，适合隐藏后台入口，不等于真正服务端安全认证。</p>
+  </div>
+</section>
+
+<section class="studio-shell is-locked" id="studio-shell">
+<section class="page-hero">
+  <p class="eyebrow">Writing Studio</p>
+  <h1>在网页里直接开始写。</h1>
+  <p class="hero-copy">你可以先在这里写标题、摘要、标签和正文，右侧会实时预览文章效果，还可以一键导出 Markdown 文件内容。</p>
+</section>
+
+<section class="studio-layout">
+  <form class="studio-panel" id="studio-form">
+    <label class="studio-field">
+      <span>文章标题</span>
+      <input id="studio-title" type="text" value="我的新文章" />
+    </label>
+    <label class="studio-field">
+      <span>一句摘要</span>
+      <input id="studio-description" type="text" value="用一句话说明这篇文章写什么。" />
+    </label>
+    <label class="studio-field">
+      <span>标签</span>
+      <input id="studio-tags" type="text" value="随笔, 想法" />
+    </label>
+    <label class="studio-field">
+      <span>正文</span>
+      <textarea id="studio-body" rows="18">## 从这里开始写
+
+你可以直接在网页里先起草内容。
+
+- 支持标题
+- 支持列表
+- 支持代码块
+
+```md
+这是一段示例代码
+```
+</textarea>
+    </label>
+    <div class="studio-actions">
+      <button class="button button-primary" type="button" id="copy-markdown">复制 Markdown</button>
+      <button class="button button-secondary" type="button" id="download-markdown">下载 .md 文件</button>
+    </div>
+    <p class="studio-hint">提示：这个版本是前端写作台，适合起草和导出。真正一键发布到线上，我们下一步可以接 GitHub 发布接口。</p>
+  </form>
+
+  <section class="studio-preview-card">
+    <div class="studio-preview-head">
+      <p class="eyebrow">Live Preview</p>
+      <h2 id="preview-title">我的新文章</h2>
+      <p id="preview-description">用一句话说明这篇文章写什么。</p>
+      <div class="article-meta">
+        <time id="preview-date">2026年5月27日</time>
+        <span id="preview-tags">随笔 / 想法</span>
+      </div>
+    </div>
+    <div class="article-content" id="preview-body"></div>
+  </section>
+</section>
+</section>
+
+<script src="/wenzhang/studio.js"></script>
+        <footer class="site-footer">
+          <p>把文章、思考和项目都放在自己的地盘上，不依赖平台分发。</p>
+          <p>联系我：<a href="mailto:q343553497@gmail.com">q343553497@gmail.com</a></p>
+        </footer>
+      </main>
+    </div>
+  </body>
+</html>
